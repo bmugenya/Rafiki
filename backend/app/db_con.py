@@ -30,12 +30,33 @@ class database_setup(object):
     def create_tables(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS post (
             post_id SERIAL NOT NULL,
-            image VARCHAR(255) NOT NULL,
+            image VARCHAR(255),
             message TEXT NOT NULL,
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
             email VARCHAR(50) REFERENCES rafiki(email),
             PRIMARY KEY (post_id)
             );""")
+
+
+    def create_tables(self):
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS room (
+            room_id SERIAL NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+            PRIMARY KEY (room_id)
+            );""")
+
+    def create_tables(self):
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS chat (
+            chat_id SERIAL NOT NULL,
+            message VARCHAR(255) NOT NULL,
+            room_id INT REFERENCES room(room_id),
+            email VARCHAR(50) REFERENCES rafiki(email),
+            timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
+            PRIMARY KEY (chat_id)
+            );""")
+
+
 
 
 
