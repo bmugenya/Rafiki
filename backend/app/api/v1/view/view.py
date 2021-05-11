@@ -214,7 +214,6 @@ class Room(Resource,Model):
         message = data.get('message')
         email = data.get('email')
         group = self.model.post_chat(message,room_id,email)
-          
         conversation = self.get_chatroom('gambling')
 
         try:
@@ -226,7 +225,34 @@ class Room(Resource,Model):
 
         token = AccessToken(TWILIO_ACCOUNT_SID,TWILIO_API_KEY_SID,TWILIO_API_KEY_SECRET,identity=email)
         token.add_grant(ChatGrant(service_sid=conversation.chat_service_sid))
-        
         return  {'token': token.to_jwt().decode(),'conversation_sid': conversation.sid}
    
  
+class Comment(Resource,Model):
+    def __init__(self):
+        self.model = Model()
+
+    def post(self):
+        data = request.get_json()
+     
+        if not data:
+            return jsonify({'msg': 'Missing JSON'}), 400
+
+        post_id = data.get('post_id')
+        comment = data.get('comment')
+        email = data.get('email')
+        post = self.model.add_comment(post_id,comment,email)
+    
+        return make_response(jsonify({
+            "post": post,
+            'message': 'Success'
+        }), 201)
+
+
+class Comments(Resource,Model):
+    def __init__(self):
+        self.model = Model()
+
+    def get(self,post_id):
+        comment = self.model.get_comments(post_id)
+        return jsonify(comment)

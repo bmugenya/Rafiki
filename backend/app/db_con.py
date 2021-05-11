@@ -23,6 +23,7 @@ class database_setup(object):
             email VARCHAR(50)  UNIQUE NOT NULL,
             password VARCHAR(256) NOT NULL,
             photo VARCHAR(255) NOT NULL,
+            isRafiki BOOLEAN NOT NULL,
             PRIMARY KEY (email)
             );""")
 
@@ -36,6 +37,16 @@ class database_setup(object):
             email VARCHAR(50) REFERENCES rafiki(email),
             PRIMARY KEY (post_id)
             );""")
+
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS comment (
+            comment_id SERIAL NOT NULL,
+            comment TEXT NOT NULL,
+            timestamp TIMESTAMP  NOT NULL DEFAULT CURRENT_DATE,
+            email VARCHAR(50) REFERENCES rafiki(email),
+            post_id INT REFERENCES post(post_id),
+            PRIMARY KEY (comment_id)
+            );""")
+
 
 
     def create_tables(self):

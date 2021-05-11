@@ -96,12 +96,20 @@ class Model():
         return feed
 
 
+    def get_name(self,room_id):
+        query = "SELECT name FROM room where room_id = '%s';" % (room_id)
+        self.cursor.execute(query)
+        post= self.cursor.fetchone()
+        return post
+
+
 
 
     def get_chat(self,chat_id):
-        query = "SELECT * FROM chat where room_id = '%s';" % (chat_id)
+        query = "SELECT chat.chat_id,chat.message,chat.room_id,chat.email,chat.timestamp,room.name FROM chat left join room on chat.room_id = room.room_id and  room.room_id = '%s';" % (chat_id)
         self.cursor.execute(query)
         post= self.cursor.fetchall()
+
         data = []
         for resp in post:
             row = {
@@ -109,7 +117,8 @@ class Model():
                 "message" :resp[1],
                 "room_id" :resp[2],
                 "email":resp[3],
-                'timestamp':resp[4]
+                'timestamp':resp[4],
+                'name':resp[5]
             }
             data.append(row)
 
@@ -129,3 +138,36 @@ class Model():
         self.database.conn.commit()
 
         return post
+
+
+    def add_comment(self,post_id,comment,email):
+        post = {
+            "comment": comment,
+            "post_id": post_id,
+            "email":email  
+        }
+
+        query = """INSERT INTO comment (comment,email,post_id)
+            VALUES(%(comment)s,%(email)s, %(post_id)s);"""
+        self.cursor.execute(query, post)
+        self.database.conn.commit()
+
+        return post
+
+
+    def get_comments(self,post_id):
+        query = "SELECT * FROM comment where post_id = '%s';" % (post_id)
+        self.cursor.execute(query)
+        post= self.cursor.fetchall()
+        data = []
+        for resp in post:
+            row = {
+                "comment_id" :resp[0],
+                "comment" :resp[1],
+                "timestamp" :resp[2],
+                "email":resp[3],
+                'post_id':resp[4]
+            }
+            data.append(row)
+
+        return data
