@@ -3,18 +3,18 @@ from json import dumps, loads
 from flask import Blueprint
 from flask_restful import Resource
 from flask import (
-    jsonify,make_response,request,Response,
-    current_app,flash,redirect,url_for,json,current_app, Blueprint,Markup
+    jsonify,make_response,request,
+  Blueprint
 )
 from ..model.model import Model
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
+     jwt_required, create_access_token,
     get_jwt_identity
 
 )
 
 from twilio.jwt.access_token import AccessToken
-from twilio.jwt.access_token.grants import ChatGrant
+from twilio.jwt.access_token.grants import VideoGrant, ChatGrant
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 
@@ -129,6 +129,8 @@ class Rooms(Resource,Model):
 
 
 
+
+
 class Post(Resource,Model):
     def __init__(self):
         self.model = Model()
@@ -162,7 +164,8 @@ class Post(Resource,Model):
                 "message": post[2],
                 "timestamp":post[3],
                 "name":post[4],
-                "photo":post[5]
+                "photo":post[5],
+                "isRafiki":post[6]
             }
             story.append(content)
             
@@ -224,10 +227,12 @@ class Room(Resource,Model):
                 raise
 
         token = AccessToken(TWILIO_ACCOUNT_SID,TWILIO_API_KEY_SID,TWILIO_API_KEY_SECRET,identity=email)
+        token.add_grant(VideoGrant(room='gambling'))
         token.add_grant(ChatGrant(service_sid=conversation.chat_service_sid))
         return  {'token': token.to_jwt().decode(),'conversation_sid': conversation.sid}
    
- 
+
+
 class Comment(Resource,Model):
     def __init__(self):
         self.model = Model()

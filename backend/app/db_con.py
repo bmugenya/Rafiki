@@ -38,30 +38,30 @@ class database_setup(object):
             PRIMARY KEY (post_id)
             );""")
 
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS comment (
-            comment_id SERIAL NOT NULL,
-            comment TEXT NOT NULL,
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS respond (
+            respond_id SERIAL NOT NULL,
+            respond TEXT NOT NULL,
             timestamp TIMESTAMP  NOT NULL DEFAULT CURRENT_DATE,
             email VARCHAR(50) REFERENCES rafiki(email),
             post_id INT REFERENCES post(post_id),
-            PRIMARY KEY (comment_id)
+            PRIMARY KEY (respond_id)
             );""")
 
 
 
     def create_tables(self):
-        self.cursor.execute("""CREATE TABLE IF NOT EXISTS room (
-            room_id SERIAL NOT NULL,
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS groups (
+            groups_id SERIAL NOT NULL,
             name VARCHAR(255) NOT NULL,
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
-            PRIMARY KEY (room_id)
+            PRIMARY KEY (groups_id)
             );""")
 
     def create_tables(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS chat (
             chat_id SERIAL NOT NULL,
             message VARCHAR(255) NOT NULL,
-            room_id INT REFERENCES room(room_id),
+            groups_id INT REFERENCES groups(groups_id),
             email VARCHAR(50) REFERENCES rafiki(email),
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
             PRIMARY KEY (chat_id)

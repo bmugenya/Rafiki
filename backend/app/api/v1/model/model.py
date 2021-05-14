@@ -10,17 +10,19 @@ class Model():
 
     
     def add_user(self, name, email,password, photo):
+        isRafiki = False
 
         user = {
 
             "name": name,
             "email": email,
             "password":pwd_context.encrypt(password),
-            "photo": photo
+            "photo": photo,
+            "isRafiki":isRafiki
         }
 
-        query = """INSERT INTO rafiki (name,email,password,photo)
-            VALUES(%(name)s,%(email)s, %(password)s,%(photo)s);"""
+        query = """INSERT INTO rafiki (name,email,password,photo,isRafiki)
+            VALUES(%(name)s,%(email)s, %(password)s,%(photo)s,%(isRafiki)s);"""
         self.cursor.execute(query, user)
         self.database.conn.commit()
 
@@ -50,7 +52,7 @@ class Model():
             "room": room
         }
 
-        query = """INSERT INTO room (name) VALUES(%(room)s);"""
+        query = """INSERT INTO groups (name) VALUES(%(room)s);"""
         self.cursor.execute(query, post)
         self.database.conn.commit()
 
@@ -73,7 +75,7 @@ class Model():
 
 
     def getPosts(self):
-        query = "SELECT post.post_id,post.image,post.message,post.timestamp,rafiki.name,rafiki.photo FROM post left join rafiki on post.email = rafiki.email ORDER BY post_id DESC;"
+        query = "SELECT post.post_id,post.image,post.message,post.timestamp,rafiki.name,rafiki.photo,rafiki.isRafiki FROM post left join rafiki on post.email = rafiki.email ORDER BY post_id DESC;"
         self.cursor.execute(query)
         post= self.cursor.fetchall()
 
@@ -81,7 +83,7 @@ class Model():
 
 
     def getRooms(self):
-        query = "SELECT * FROM room;"
+        query = "SELECT * FROM groups;"
         self.cursor.execute(query)
         post= self.cursor.fetchall()
         feed = []
@@ -97,7 +99,7 @@ class Model():
 
 
     def get_name(self,room_id):
-        query = "SELECT name FROM room where room_id = '%s';" % (room_id)
+        query = "SELECT name FROM groups where groups_id = '%s';" % (room_id)
         self.cursor.execute(query)
         post= self.cursor.fetchone()
         return post
@@ -106,7 +108,7 @@ class Model():
 
 
     def get_chat(self,chat_id):
-        query = "SELECT chat.chat_id,chat.message,chat.room_id,chat.email,chat.timestamp,room.name FROM chat left join room on chat.room_id = room.room_id and  room.room_id = '%s';" % (chat_id)
+        query = "SELECT chat.chat_id,chat.message,chat.room_id,chat.email,chat.timestamp,groups.name FROM chat left join groups on chat.groups_id = groups.groups_id and groups.groups_id = '%s';" % (chat_id)
         self.cursor.execute(query)
         post= self.cursor.fetchall()
 
@@ -132,7 +134,7 @@ class Model():
             "email":email  
         }
 
-        query = """INSERT INTO chat (message,room_id,email)
+        query = """INSERT INTO chat (message,groups_id,email)
             VALUES(%(message)s,%(room_id)s, %(email)s);"""
         self.cursor.execute(query, post)
         self.database.conn.commit()
@@ -147,7 +149,7 @@ class Model():
             "email":email  
         }
 
-        query = """INSERT INTO comment (comment,email,post_id)
+        query = """INSERT INTO respond (respond,email,post_id)
             VALUES(%(comment)s,%(email)s, %(post_id)s);"""
         self.cursor.execute(query, post)
         self.database.conn.commit()
@@ -156,7 +158,7 @@ class Model():
 
 
     def get_comments(self,post_id):
-        query = "SELECT * FROM comment where post_id = '%s';" % (post_id)
+        query = "SELECT * FROM respond where post_id = '%s';" % (post_id)
         self.cursor.execute(query)
         post= self.cursor.fetchall()
         data = []
