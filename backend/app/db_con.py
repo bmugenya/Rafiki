@@ -22,7 +22,7 @@ class database_setup(object):
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
             email VARCHAR(50)  UNIQUE NOT NULL,
             password VARCHAR(256) NOT NULL,
-            photo VARCHAR(255) NOT NULL,
+            photo VARCHAR(255),
             isRafiki BOOLEAN NOT NULL,
             PRIMARY KEY (email)
             );""")

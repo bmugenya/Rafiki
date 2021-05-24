@@ -108,7 +108,7 @@ class Model():
 
 
     def get_chat(self,chat_id):
-        query = "SELECT chat.chat_id,chat.message,chat.room_id,chat.email,chat.timestamp,groups.name FROM chat left join groups on chat.groups_id = groups.groups_id and groups.groups_id = '%s';" % (chat_id)
+        query = "SELECT chat.chat_id,chat.message,chat.groups_id,chat.email,chat.timestamp,groups.name FROM chat left join groups on chat.groups_id = groups.groups_id where groups.groups_id = '%s';" % (chat_id)
         self.cursor.execute(query)
         post= self.cursor.fetchall()
 
@@ -128,6 +128,8 @@ class Model():
 
 
     def post_chat(self,message,room_id,email):
+        if not email:
+            email = 'rafiki@gmail.com'
         post = {
             "message": message,
             "room_id": room_id,
@@ -158,17 +160,36 @@ class Model():
 
 
     def get_comments(self,post_id):
-        query = "SELECT * FROM respond where post_id = '%s';" % (post_id)
+        query = "SELECT respond.respond,respond.respond_id,respond.email,respond.post_id,respond.timestamp,rafiki.name,rafiki.photo,rafiki.israfiki FROM respond left join rafiki on respond.email = rafiki.email where respond.post_id = '%s';" % (post_id)
         self.cursor.execute(query)
         post= self.cursor.fetchall()
         data = []
         for resp in post:
             row = {
-                "comment_id" :resp[0],
-                "comment" :resp[1],
+                "comment_id" :resp[1],
+                "comment" :resp[0],
+                "timestamp" :resp[4],
+                "email":resp[2],
+                'post_id':resp[3],
+                'photo':resp[6],
+                'name':resp[5],
+                'isRafiki':resp[7]
+            }
+            data.append(row)
+
+        return data
+
+
+    def search_post(self, search):
+        self.cursor.execute("SELECT * FROM post WHERE message LIKE '%s';" % ("%" + search + "%"))
+        query = self.cursor.fetchall()
+        data = []
+        for resp in query:
+            row = {
+                "post_id" :resp[0],
+                "photo" :resp[1],
                 "timestamp" :resp[2],
-                "email":resp[3],
-                'post_id':resp[4]
+                "email":resp[3]
             }
             data.append(row)
 

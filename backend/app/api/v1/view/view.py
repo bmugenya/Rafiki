@@ -49,6 +49,7 @@ class AddUser(Resource,Model):
         photo = upload_data['secure_url']
         name = request.form['name']
         email=request.form['email']
+    
         password=request.form['password']
         data = self.model.add_user(name,email,password,photo)
         access_token = create_access_token(identity=email)
@@ -136,21 +137,20 @@ class Post(Resource,Model):
         self.model = Model()
 
     def post(self):
-        data = request.get_json()
-     
-        if not data:
-            return jsonify({'msg': 'Missing JSON'}), 400
-
-        image = data.get('image')
-        message = data.get('message')
-        email = data.get('email')
+        photo = request.files['file']
+        print(photo)
+        if photo:
+            upload_data = cloudinary.uploader.upload(photo)
+            image = upload_data['secure_url']
+        message = request.form['message']
+        email = request.form['email']
         post = self.model.post(image,message,email)
-    
         return make_response(jsonify({
             "post": post,
             'message': 'Success'
 
         }), 201)
+
 
         
 
@@ -254,10 +254,29 @@ class Comment(Resource,Model):
         }), 201)
 
 
-class Comments(Resource,Model):
+class Respond(Resource,Model):
     def __init__(self):
         self.model = Model()
 
     def get(self,post_id):
         comment = self.model.get_comments(post_id)
         return jsonify(comment)
+
+
+class Find(Resource,Model):
+
+    def __init__(self):
+        self.model = Model()
+
+    def post(self):
+        data = request.get_json()
+     
+        if not data:
+            return jsonify({'msg': 'Missing JSON'}), 400
+
+        search = data.get('search')
+        found = self.model.search_post(search)
+        if found:
+            return jsonify(found)
+
+           
