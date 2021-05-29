@@ -83,7 +83,7 @@ class Model():
 
 
     def getRooms(self):
-        query = "SELECT * FROM groups;"
+        query = "SELECT groups_id,name,timestamp,(SELECT chat.message from chat where chat.groups_id=groups.groups_id ORDER BY chat.chat_id DESC LIMIT 1) FROM groups;"
         self.cursor.execute(query)
         post= self.cursor.fetchall()
         feed = []
@@ -91,7 +91,8 @@ class Model():
             row = {
             "room_id" :resp[0],
             "name" :resp[1],
-            "created" :resp[2]
+            "created" :resp[2],
+            'message':resp[3]
             }
             feed.append(row)
 
@@ -194,3 +195,53 @@ class Model():
             data.append(row)
 
         return data
+
+
+
+    def add_client(self,name,gender,age,nationality,email,phone):
+        post = {
+            "email": email,
+            "name": name,
+            "gender":gender,
+            "age": age,
+            "nationality": nationality,
+            "email": email,
+            "phone": phone
+        }
+
+        query = """INSERT INTO Client (name,gender,age,nationality,email,phone)
+            VALUES(%(name)s,%(gender)s,%(age)s,%(nationality)s,%(email)s,%(phone)s);"""
+
+        self.cursor.execute(query, post)
+        self.database.conn.commit()
+        return post
+
+    def add_consent(self,reason,expectation,addictions,coping,harm,other,email):
+        post = {
+            "email": email,
+            "reason": reason,
+            "expectation":expectation,
+            "addictions": addictions,
+            "harm": harm,
+            "other": other,
+            "coping": coping,
+          
+
+        }
+
+        query = """INSERT INTO Consent(reason,expectation,addictions,coping,harm,other,email)
+            VALUES(%(reason)s,%(expectation)s,%(addictions)s,%(coping)s,%(harm)s,%(other)s,%(email)s);"""
+
+        self.cursor.execute(query, post)
+        self.database.conn.commit()
+
+        return post
+
+
+    def get_client(self,email):
+        query = "SELECT * FROM client WHERE email= '%s';" % (email)
+        self.cursor.execute(query)
+        story = self.cursor.fetchone()
+
+        return story
+
