@@ -78,20 +78,16 @@ class Auth(Resource,Model):
    
         if user:
             access_token = create_access_token(identity=email)
-            # add the user to each conversation
-            conversations = twilio_client.conversations.conversations.list()
-            for conversation in conversations:
-                try:
-                    conversation.participants.create(identity=email)
-                except TwilioRestException as exc:
-                    if exc.status != 409:
-                        raise
             return make_response(jsonify({
-            'access_token': access_token,
-            'data':user,
-            'rooms':rooms,
-            'message': 'Success'
-        }), 200)
+                'access_token': access_token, 
+                'data':user,
+                'rooms':rooms,
+                'message': 'Success'
+            }), 200)
+        else:
+            return make_response(jsonify({
+                'message': 'Check Email/Password'
+            }), 204)
 
 
 
@@ -280,3 +276,29 @@ class Find(Resource,Model):
             return jsonify(found)
 
            
+
+class Session(Resource,Model):
+    def __init__(self):
+        self.model= Model()
+
+    def post(self):
+        data = request.get_json() 
+        name=data.get('cname')
+        gender=data.get('gender')
+        age=data.get('age')
+        nationality=data.get('nationality')
+        email=data.get('email')
+        phone=data.get('phone')
+        reason=data.get('reason')
+        expectation=data.get('expectation')
+        coping=data.get('coping')
+        harm=data.get('harm')
+        addictions=data.get('addictions')
+        other=data.get('other')
+
+        exists = self.model.get_client(email)
+        if exists:
+            self.model.add_consent(reason,expectation,coping,addictions,harm,other,email)
+        else:
+            self.model.add_client(name,gender,age,nationality,email,phone)
+            self.model.add_consent(reason,expectation,coping,addictions,harm,other,email)
