@@ -1,6 +1,29 @@
 from ....db_con import database_setup
 from passlib.apps import custom_app_context as pwd_context
 
+from draftjs_exporter.dom import DOM
+from draftjs_exporter.html import HTML
+
+# Configuration options are detailed below.
+config = {}
+
+# Initialise the exporter.
+exporter = HTML(config)
+
+# Render a Draft.js `contentState`
+html = exporter.render({
+    'entityMap': {},
+    'blocks': [{
+        'key': '6mgfh',
+        'text': 'Hello, world!',
+        'type': 'unstyled',
+        'depth': 0,
+        'inlineStyleRanges': [],
+        'entityRanges': []
+    }]
+})
+
+print(html)
 class Model():
 
     def __init__(self):
@@ -59,15 +82,15 @@ class Model():
         return post                      
 
 
-    def post(self,image,message,email):
+    def post(self,message,email):
         post = {
-            "image": image,
+
             "message": message,
             "email":email  
         }
 
-        query = """INSERT INTO post (image,message,email)
-            VALUES(%(image)s,%(message)s, %(email)s);"""
+        query = """INSERT INTO post (message,email)
+            VALUES(%(message)s, %(email)s);"""
         self.cursor.execute(query, post)
         self.database.conn.commit()
 
@@ -75,11 +98,24 @@ class Model():
 
 
     def getPosts(self):
-        query = "SELECT post.post_id,post.image,post.message,post.timestamp,rafiki.name,rafiki.photo,rafiki.isRafiki FROM post left join rafiki on post.email = rafiki.email ORDER BY post_id DESC;"
+        query = "SELECT post.post_id,post.message,post.timestamp,rafiki.name,rafiki.photo,rafiki.isRafiki FROM post left join rafiki on post.email = rafiki.email ORDER BY post_id DESC;"
         self.cursor.execute(query)
         post= self.cursor.fetchall()
+        feed = []
+        for resp in post:
+            row = {
+            "post_id" :resp[0],
+            "message" :exporter.render(resp[1]['content']),
+            # "message" :resp[1]['content'],
+            "created" :resp[2],
+            'name':resp[3],
+            "photo" :resp[4],
+            'isRafiki':resp[5]
+            }
+            feed.append(row)
 
-        return post
+
+        return feed
 
 
     def getRooms(self):

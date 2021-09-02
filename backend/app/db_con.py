@@ -1,7 +1,11 @@
 import psycopg2
 
-
+from psycopg2.extras import DictCursor
 url = "dbname='d4m0uig5ickgc9' user='kbmwtuzaknbwnh' host='ec2-18-215-111-67.compute-1.amazonaws.com' port=5432 password='3291eed2d0eee5981d45a60a08cdf67e4ed0cf3d1f7de29145abad97ad2266ae'"
+
+
+# url = "dbname='friend' user='postgres' host='localhost' port=5432 password='Qw12Er34'"
+
 
 
 
@@ -30,8 +34,7 @@ class database_setup(object):
 
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS post (
             post_id SERIAL NOT NULL,
-            image VARCHAR(255),
-            message TEXT NOT NULL,
+            message JSONB NOT NULL,
             timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_DATE,
             email VARCHAR(50) REFERENCES rafiki(email),
             PRIMARY KEY (post_id)

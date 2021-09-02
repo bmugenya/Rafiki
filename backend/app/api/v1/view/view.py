@@ -28,6 +28,14 @@ TWILIO_API_KEY_SECRET='yJmwbAub7idmWBIB6Qhy2T0EvV966Tsv'
 twilio_client = Client(TWILIO_API_KEY_SID, TWILIO_API_KEY_SECRET,
                        TWILIO_ACCOUNT_SID)
 
+from draftjs_exporter.dom import DOM
+from draftjs_exporter.html import HTML
+
+# Configuration options are detailed below.
+config = {}
+
+# Initialise the exporter.
+exporter = HTML(config)
 
 
 # INDEX VIEW
@@ -133,16 +141,16 @@ class Post(Resource,Model):
         self.model = Model()
 
     def post(self):
-        photo = request.files['file']
-        print(photo)
-        if photo:
-            upload_data = cloudinary.uploader.upload(photo)
-            image = upload_data['secure_url']
-        message = request.form['message']
-        email = request.form['email']
-        post = self.model.post(image,message,email)
+        data = request.get_json()
+
+        if not data:
+            return jsonify({'msg': 'Missing JSON'}), 400
+        message = dumps(data,indent = 4)
+        email = 'rafiki@gmail.com'
+        post = self.model.post(message,email)
+
+        print(post)
         return make_response(jsonify({
-            "post": post,
             'message': 'Success'
 
         }), 201)
@@ -152,20 +160,7 @@ class Post(Resource,Model):
 
     def get(self):
         posts =  self.model.getPosts()
-        story = []
-        for post in posts:
-            content = {
-                "id": post[0],
-                "image" : post[1],
-                "message": post[2],
-                "timestamp":post[3],
-                "name":post[4],
-                "photo":post[5],
-                "isRafiki":post[6]
-            }
-            story.append(content)
-            
-        return jsonify(story)
+        return jsonify(posts)
 
 
 
@@ -239,10 +234,13 @@ class Comment(Resource,Model):
         if not data:
             return jsonify({'msg': 'Missing JSON'}), 400
 
+
+
         post_id = data.get('post_id')
         comment = data.get('comment')
         email = data.get('email')
         post = self.model.add_comment(post_id,comment,email)
+        print(post)
     
         return make_response(jsonify({
             "post": post,
