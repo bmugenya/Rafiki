@@ -1,0 +1,5 @@
+export const LOGIN = '/'
+export const HOME = '/home'
+export const CHAT = '/chat'
+export const FAQ = '/faq'
+export const CONSENT = '/questionaire'
