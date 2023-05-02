@@ -2,6 +2,7 @@ import Header from '../components/Header'
 import Widget from '../components/Widget'
 import Feed from '../components/Feed'
 import Login from '../pages/login'
+import VideoConference from '../pages/video'
 import Chat from '../components/Chat'
 import Bar from '../components/Bar'
 import Consent from '../components/Consent'
@@ -31,6 +32,7 @@ export default function Router() {
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.FAQ} element={<Accordion />} />
          <Route path={ROUTES.CONSENT} element={<Consent />} />
+         <Route path={ROUTES.VIDEO} element={<VideoConference />} />
           <Route path='/chat/:groupName' element={
             <> 
             <div className='chatt'>

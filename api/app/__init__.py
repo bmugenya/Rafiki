@@ -28,6 +28,11 @@ def register_blueprints(app):
 
     from .view.space import space
     app.register_blueprint(space, url_prefix='/api')
+
+
+    from .view.video import video
+    app.register_blueprint(video, url_prefix='/api')
+    
     
 
 

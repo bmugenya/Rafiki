@@ -12,7 +12,7 @@ body {
 .chatt {
   display: grid;
   place-items: center;
-  height: 100vh;
+/*  height: 100vh;*/
   background-color: #dadbd3;
 }
 
@@ -20,7 +20,7 @@ body {
   display: flex;
   background-color: #ededed;
   margin-top: -50px;
-  height: 90vh;
+  height: 95vh;
   width: 95vw;
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.75);
 }
