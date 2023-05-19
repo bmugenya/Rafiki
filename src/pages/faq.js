@@ -11,7 +11,7 @@ export default function Jumbo() {
 
   const handleSignIn = (event) => {
     event.preventDefault()
-    fetch('/rafiki/auth', {
+    fetch('https://rafiki.onrender.com/rafiki/auth', {
       method: 'POST',
       mode: 'cors',
       headers: {

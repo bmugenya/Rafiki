@@ -1,2 +1,2 @@
-// export const url = 'https://rafikiplus.herokuapp.com'
-export const url = 'http://localhost:5000/api'
+ export const url = 'https://rafiki.onrender.com'
+//export const url = 'http://localhost:5000/api'

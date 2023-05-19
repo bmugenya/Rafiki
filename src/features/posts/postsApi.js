@@ -1,7 +1,7 @@
 import axios from 'axios'
 // import { url } from "./utils/url.js"
 
-const url = 'http://localhost:5000'
+const url = 'https://rafiki.onrender.com'
 
 export const getPosts = async () => {
     try {
