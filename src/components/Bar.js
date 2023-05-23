@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import '../assets/Bar.css'
-import DonutLargeIcon from '@mui/icons-material/DonutLarge'
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
-import ChatIcon from '@mui/icons-material/Chat'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
-import Chat from './Chat'
 import SideChat from './SideChat'
-import { url } from '../context/url'
+import { url } from '../utils/url'
 
 export default function Bar() {
   const [rooms, setRooms] = useState([])

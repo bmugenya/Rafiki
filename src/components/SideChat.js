@@ -1,9 +1,8 @@
 import React from 'react'
-import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import '../assets/SideChat.css'
 import { Link } from 'react-router-dom'
-import { url } from '../context/url'
+import { url } from '../utils/url'
 
 export default function SideChat({ id, name, addChat, message }) {
   const createChat = () => {

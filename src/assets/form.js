@@ -1,6 +1,5 @@
 import styled from 'styled-components/macro'
 
-import { Link as router } from 'react-router-dom'
 
 export const Block = styled.div`
   display: flex;

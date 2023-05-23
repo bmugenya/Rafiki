@@ -1,13 +1,11 @@
 import { React, useState } from 'react'
 import { Form } from '../components'
-import { Navigate, useNavigate } from 'react-router-dom';
-import * as ROUTES from '../constants/routes'
+import { useNavigate } from 'react-router-dom';
 
-
+import { Link } from 'react-router-dom';
 // redux
 import { useDispatch, useSelector } from 'react-redux'
 import { createUserAsync } from '../features/register/registerActions'
-import { useForm } from 'react-hook-form'
 
 
 export default function Signup() {
@@ -17,14 +15,12 @@ export default function Signup() {
 
   const history = useNavigate()
   const dispatch = useDispatch()
-   const { error } = useSelector((state) => state.user)
-  const { register, handleSubmit, formState: { errors }, } = useForm()
+  const { error } = useSelector((state) => state.user)
 
 
-  const [open, setOpen] = useState(true)
 
   const handleClose = () => {
-    setOpen(false)
+  // 
   }
 
   const isInvalid = firstName === '' || password === '' || emailAddress === ''
@@ -48,9 +44,11 @@ export default function Signup() {
     !error && history('/')
   }
 
+  
   return (
-    <>
       <Form>
+           <Form.Pane>
+
         <Form.Block>
           <Form.Title>Sign Up</Form.Title>
           {error && <Form.Error>{error}</Form.Error>}
@@ -78,13 +76,28 @@ export default function Signup() {
           </Form.Base>
           <Form.Text>
             Already have an account?{' '}
-            <Form.Link onClick={handleClose}>SignIn Now</Form.Link>
+             <Link to="/">
+            <Form.Link>SignIn Now</Form.Link>
+   </Link>
           </Form.Text>
           <Form.TextSmall>
             This page is protected by google reCapture
           </Form.TextSmall>
+
+
         </Form.Block>
+ </Form.Pane>
+             <Form.Pane>
+                <Form.Text>
+          Rafiki offers a safe haven to talk about daily stress that's weighing
+          heavily on the mind. It achieves this by offering anonymous
+          communication among users. This eradicates the fear of judgment
+          enabling users to open up about their well-being in order to get
+          reliable feedback. Rafiki is a user who is not anonymous and have
+          excellent counseling hence making them more knowledgeable to reply to
+          concerns such as stress, depression, anxiety disorders among others.
+        </Form.Text>
+         </Form.Pane>
       </Form>
-    </>
   )
 }

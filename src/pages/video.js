@@ -1,6 +1,6 @@
-import React,{  useState,useEffect, useRef  } from 'react'
+import React,{  useState,useEffect  } from 'react'
 import Video from 'twilio-video';
-import { url } from '../context/url'
+import { url } from '../utils/url'
 
 export default function VideoConference({ identity = 'mugenya@gmail.com', roomName='gambling' }) {
   const [room, setRoom] = useState(null);

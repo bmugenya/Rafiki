@@ -1,13 +1,11 @@
 import axios from 'axios'
-// import { url } from "./utils/url.js"
-
-const url = 'https://rafiki.onrender.com'
+import { url } from "../../utils/url.js"
 
 export const getPosts = async () => {
     try {
         
         const config = { headers: { 'Content-Type': 'application/json' } }
-        const { data } = await axios.get(`${url}/api/posts`, config)  
+        const { data } = await axios.get(`${url}/posts`, config)  
 
         return data
     } catch(e) {
@@ -20,7 +18,7 @@ export const addPost = async (text,email) => {
     try {
         
         const config = { headers: { 'Content-Type': 'application/json' } }
-        const { data } = await axios.post(`${url}/api/post`,{text,email}, config) 
+        const { data } = await axios.post(`${url}/post`,{text,email}, config) 
         console.log(data) 
 
         return data

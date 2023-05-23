@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../assets/consent.css'
 import { Form } from '../components'
-import { url } from '../context/url'
+import { url } from '../utils/url'
 
 export default function Consent() {
   const [error, setError] = useState('')
@@ -17,6 +17,7 @@ export default function Consent() {
   const [harm, setHarm] = useState('')
   const [addictions, setAddictions] = useState('')
   const [other, setOther] = useState('')
+  
   const handleSignIn = (event) => {
     event.preventDefault()
     setError('')

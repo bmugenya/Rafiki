@@ -13,6 +13,7 @@ export default function Widget() {
         frameborder='0'
         allowfullscreen='true'
         allow='autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share'
+        title='Rafiki'
       ></iframe>
     </div>
   )

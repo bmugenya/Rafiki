@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import '../assets/Header.css'
 import FlagIcon from '@mui/icons-material/Flag'
-import HomeIcon from '@mui/icons-material/Home'
 import SearchIcon from '@mui/icons-material/Search'
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
@@ -13,10 +12,9 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { Link } from 'react-router-dom'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import { url } from '../context/url'
+import { url } from '../utils/url'
 import HelpIcon from '@mui/icons-material/Help'
 
 
@@ -41,7 +39,7 @@ function Header() {
   const [search, setSearch] = useState('')
   const name = localStorage.getItem('name')
   const image = localStorage.getItem('image')
-  const email = localStorage.getItem('email')
+
 
   const handleSubmit = (e) => {
     e.preventDefault()

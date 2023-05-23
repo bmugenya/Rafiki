@@ -1,24 +1,16 @@
-import React, { useState, useEffect, Json } from 'react'
+import React from 'react'
 import '../assets/Feed.css'
 import Sender from './Sender'
 import Post from './Post'
-import { url } from '../context/url'
 import '../assets/draft.css'
-import useAuthListener from '../hooks/use-auth-listener'
-import { useDispatch, useSelector } from 'react-redux'
-
-
-
+import { useSelector } from 'react-redux'
 
 
 function Feed() {
 
   
-  const { posts } = useSelector((state) => state.posts)
+const { posts } = useSelector((state) => state.posts)
 
-
-
- const { user, loading } = useAuthListener()
 
 
   return (
@@ -27,7 +19,7 @@ function Feed() {
   <Sender />
 
 
-      {posts.map((post) => (
+      {posts?.map((post) => (
         <Post
           key={post.id}
           message={post.content}

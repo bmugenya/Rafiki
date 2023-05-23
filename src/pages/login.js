@@ -1,67 +1,24 @@
 import { React, useState } from 'react'
 import { Form } from '../components'
-import { Navigate, useNavigate } from 'react-router-dom';
-import { url } from '../context/url'
-import Signup from './signup'
-import Modal from '@mui/material/Modal'
-import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
-
-import { useForm } from 'react-hook-form'
-
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { authUserAsync } from '../features/user/userActions'
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10
-}
-
-function getModalStyle() {
-  const top = 50 + rand()
-  const left = 50 + rand()
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  }
-}
-
-// const useStyles = makeStyles((theme) => ({
-//   paper: {
-//     position: 'absolute',
-//     width: 400,
-//     backgroundColor: theme.palette.background.paper,
-//     border: '2px solid #000',
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3),
-//   },
-// }))
 
 export default function Login() {
   const history = useNavigate()
 
 
-  const [modalStyle] = useState(getModalStyle)
-  const [open, setOpen] = useState(false)
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const [user, setUser] = useState([])
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState('')
+
 
   const isInvalid = password === '' || emailAddress === ''
 const dispatch = useDispatch()
   const { error } = useSelector((state) => state.user)
-  const { register, handleSubmit, formState: { errors }, } = useForm()
+
 
   const handleSignIn = (event) => {
     event.preventDefault()
@@ -119,7 +76,9 @@ const dispatch = useDispatch()
           </Form.Base>
           <Form.Text>
             New to Rafiki?{' '}
-            <Form.Link onClick={handleOpen}>Signup Now</Form.Link>
+             <Link to="/signup">
+            <Form.Link >Signup Now</Form.Link>
+            </Link>
           </Form.Text>
           <Form.TextSmall>
             This page is protected by google reCapture
@@ -127,14 +86,6 @@ const dispatch = useDispatch()
          
         </Form.Block>
       </Form.Pane>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='simple-modal-title'
-        aria-describedby='simple-modal-description'
-      >
-        <Signup />
-      </Modal>
     </Form>
   )
 }

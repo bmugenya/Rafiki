@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import '../assets/Chat.css'
-import { AttachFile, MoreVert, SearchOutlined } from '@mui/icons-material'
-import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
+
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 import MicIcon from '@mui/icons-material/Mic'
 import { useParams } from 'react-router-dom'
 import VideocamIcon from '@mui/icons-material/Videocam'
-import { url } from '../context/url'
+import { url } from '../utils/url'
 
 export const ChatContext = React.createContext()
 
 export default function Chat() {
   const [input, setInput] = useState('')
-  const chatData = React.useContext(ChatContext)
   const [group, setGroup] = useState([])
   const email = "mugenya@gmail.com"
   const { groupName = 'gambling'} = useParams()

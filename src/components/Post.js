@@ -1,23 +1,17 @@
-import React, { json, useState } from 'react'
+import React, { useState } from 'react'
 
 import Avatar from '@mui/material/Avatar';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp'
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
-import NearMeIcon from '@mui/icons-material/NearMe'
+
+
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
-import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import '../assets/Post.css'
-import  ExpandMoreOutlined  from '@mui/icons-material/ExpandMoreOutlined'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Comment from './Comment'
 import Comments from './comments'
 import Moment from 'react-moment'
-import { convertFromRaw } from 'draft-js'
-import useAuthListener from '../hooks/use-auth-listener'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getCommentAsync } from '../features/comment/commentActions';
 
 
@@ -27,7 +21,7 @@ import { getCommentAsync } from '../features/comment/commentActions';
 // `;
 
 function Post({ image, username, timestamp, message, id, isRafiki,respCount }) {
-  const user  = useAuthListener()
+
     const [isCommentsLoaded, setIsCommentsLoaded] = useState(false);
 
 

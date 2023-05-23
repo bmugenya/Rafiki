@@ -1,4 +1,5 @@
 export const LOGIN = '/'
+export const SIGNUP = '/signup'
 export const HOME = '/home'
 export const CHAT = '/chat'
 export const FAQ = '/faq'

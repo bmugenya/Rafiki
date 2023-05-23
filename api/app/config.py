@@ -8,7 +8,7 @@ class Config(object):
         SECRET_KEY = ''.join(random.choice( string.ascii_lowercase  ) for i in range( 32 ))   
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost:5432/rafiki'
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
     USE_CORS = True
     CORS_SUPPORTS_CREDENTIALS = True
     CORS_HEADERS = 'Content-Type'

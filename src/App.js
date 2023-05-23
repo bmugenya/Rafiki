@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import './assets/App.css'
-import Router from "./helpers/router"
+import Router from "./router/router"
 import { useDispatch } from 'react-redux'
 import { getPostsAsync } from "./features/posts/postsActions"
 

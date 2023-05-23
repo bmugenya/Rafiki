@@ -1,9 +1,6 @@
 import { React, useState } from 'react'
 import '../assets/Sender.css'
 import Avatar from '@mui/material/Avatar';
-import VideocamIcon from '@mui/icons-material/Videocam'
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary'
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 import FormatBoldIcon from '@mui/icons-material/FormatBold'
 import FormatItalicIcon from '@mui/icons-material/FormatItalic'
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined'
@@ -11,18 +8,18 @@ import StrikethroughSIcon from '@mui/icons-material/StrikethroughS'
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote'
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted'
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered'
-import { url } from '../context/url'
 import useAuthListener from '../hooks/use-auth-listener'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 import { addPostAsync} from '../features/posts/postsActions'
 
 function Sender() {
   const [input, setInput] = useState('')
- const { user, loading } = useAuthListener()
- console.log(user)
+ const { user } = useAuthListener()
+
+
   const history = useNavigate()
   const dispatch = useDispatch()
 
